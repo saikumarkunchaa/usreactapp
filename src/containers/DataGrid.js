@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDataGrid from 'react-data-grid';
-import axios from 'axios';
+import {connect} from "react-redux";
+import * as actionCreators from '../store/actions'
 
 
 class DataGrid extends React.Component {
@@ -9,12 +10,14 @@ class DataGrid extends React.Component {
         this.state = {data:''};
     }
     componentDidMount() {
-        axios.get('https://5d46e636992ea9001444c6c5.mockapi.io/api/v1/users')
-        .then(res => {
-          const persons = res.data;
-          console.log(persons);
-          this.setState({ data: persons });
-        })
+        // axios.get('https://5d46e636992ea9001444c6c5.mockapi.io/api/v1/users')
+        // .then(res => {
+        //   const persons = res.data;
+        //   console.log(persons);
+        //   this.setState({ data: persons });
+        // })
+
+        this.props.getData();
             
     }
 
@@ -24,8 +27,8 @@ class DataGrid extends React.Component {
             { key: 'name', name: 'Name' },
             { key: 'username', name: 'UserName' },
             {key: 'email', name: 'Email' } ];
+            const rows  = this.props.apiData;
           
-          const rows = this.state.data;
           
         return (<div>
 
@@ -40,6 +43,16 @@ class DataGrid extends React.Component {
 
 
 }
-
-
-export default DataGrid;
+const mapStateToProps = (state) => {
+    return {apiData: state.data}
+}
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getData: () => dispatch(actionCreators.dataGrid())
+    }
+}
+DataGrid.defaltProps = {
+    apiData: {}
+}
+const DataGridTable  = connect(mapStateToProps,mapDispatchToProps)(DataGrid);
+export default DataGridTable;

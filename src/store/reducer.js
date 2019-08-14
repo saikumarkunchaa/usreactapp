@@ -1,10 +1,11 @@
 
-const initialState = {count:9}
+const initialState = {}
 
 const reducer = (state = initialState ,action) => {
+    console.log(action)
     switch(action.type) {
         case 'DATA_LOADED':
-        const data = action.DATA_LOADED;
+        const data = action.apidata.data;
         return {
             ...state, data
         }
