@@ -1,5 +1,5 @@
 
-const initialState = {count:9}
+const initialState = {}
 
 const reducer = (state = initialState ,action) => {
     console.log(action)

@@ -1,12 +1,13 @@
 import React from 'react';
-import { connect } from "react-redux";
+import ReactDataGrid from 'react-data-grid';
+import {connect} from "react-redux";
 import * as actionCreators from '../store/actions'
-import Spinner from '../components/UI/spinner/Spinner'
-import DataTable from '../components/DataTable/DataTable';
+
+
 class DataGrid extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { data: '' };
+        this.state = {data:''};
     }
     componentDidMount() {
         // axios.get('https://5d46e636992ea9001444c6c5.mockapi.io/api/v1/users')
@@ -17,23 +18,33 @@ class DataGrid extends React.Component {
         // })
 
         this.props.getData();
-
+            
     }
 
     render() {
+        const columns = [
+            { key: 'id', name: 'ID' },
+            { key: 'name', name: 'Name' },
+            { key: 'username', name: 'UserName' },
+            {key: 'email', name: 'Email' } ];
+            const rows  = this.props.apiData;
+          
+          
+        return (<div>
 
-        if (this.props.apiData === undefined) {
-            return <Spinner />
-        } else {
-            return (
-                <div>
-                    <DataTable data={this.props.apiData}  sai = 'test'/>
-                </div>);
-        }
+<ReactDataGrid
+  columns={columns}
+  rowGetter={i => rows[i]}
+  rowsCount={10}
+  minHeight={400} />
+
+        </div>);
     }
+
+
 }
 const mapStateToProps = (state) => {
-    return { apiData: state.data }
+    return {apiData: state.data}
 }
 const mapDispatchToProps = (dispatch) => {
     return {
@@ -41,7 +52,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 DataGrid.defaltProps = {
-    apiData: ''
+    apiData: {}
 }
-const DataGridTable = connect(mapStateToProps, mapDispatchToProps)(DataGrid);
+const DataGridTable  = connect(mapStateToProps,mapDispatchToProps)(DataGrid);
 export default DataGridTable;

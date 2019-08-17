@@ -4,7 +4,6 @@ export function* fetchData() {
     try {
     const apidata = yield call(axios.get, 'https://5d46e636992ea9001444c6c5.mockapi.io/api/v1/users');
     if(apidata.status === 200) { 
-      console.log('sagadata'+apidata);
           yield put({type:'DATA_LOADED',apidata});
     }  else {
       const status = 'fail';
